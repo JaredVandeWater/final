@@ -9,3 +9,9 @@ CREATE TABLE IF NOT EXISTS accounts(
 -- creatorId VarCHAR(255) NOT NULL,
 --  FOREIGN KEY (creatorId)
 --  REFERENCES accounts(id)
+CREATE TABLE IF NOT EXISTS keep(
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  creatorId VARCHAR(255) NOT NULL,
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) name VARCHAR(255) NOT NULL,
+  category VARCHAR(255) NOT NULL,
+)
