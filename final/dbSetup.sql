@@ -9,9 +9,31 @@ CREATE TABLE IF NOT EXISTS accounts(
 -- creatorId VarCHAR(255) NOT NULL,
 --  FOREIGN KEY (creatorId)
 --  REFERENCES accounts(id)
-CREATE TABLE IF NOT EXISTS keep(
+CREATE TABLE IF NOT EXISTS keeps(
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   creatorId VARCHAR(255) NOT NULL,
-  FOREIGN KEY (creatorId) REFERENCES accounts(id) name VARCHAR(255) NOT NULL,
-  category VARCHAR(255) NOT NULL,
-)
+  name VARCHAR(255) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  img VARCHAR(255) NOT NULL,
+  views int,
+  shares int,
+  keeps int,
+  FOREIGN KEY(creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+) default charset utf8;
+CREATE TABLE IF NOT EXISTS vaults(
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  creatorId VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  isPrivate TINYINT DEFAULT 0,
+  FOREIGN KEY(creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+) default charset utf8;
+CREATE TABLE IF NOT EXISTS vaultkeep(
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  creatorId VARCHAR(255) NOT NULL,
+  vaultId int,
+  keepId int,
+  FOREIGN KEY(creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY(vaultId) REFERENCES vaults(id) ON DELETE CASCADE,
+  FOREIGN KEY(keepId) REFERENCES keeps(id) ON DELETE CASCADE
+) default charset utf8;
