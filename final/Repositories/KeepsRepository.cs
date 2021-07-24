@@ -30,7 +30,7 @@ namespace final.Repositories
 
 
     // create a keep
-    internal int Post(Keep newKeep)
+    public int Post(Keep newKeep)
     {
       string sql = @"
       INSERT INTO keeps
@@ -56,17 +56,17 @@ namespace final.Repositories
     public List<Keep> GetAll()
     {
       string sql = @"
-                 SELECT 
+                SELECT 
                     k.*,
                     a.*
                 FROM keeps k
-                JOIN accounts a ON k.creatorId = a.id;
-            ";
+                JOIN accounts a ON k.creatorId = a.id;";
+
       return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
-           {
-             k.Creator = p;
-             return k;
-           }, splitOn: "id").ToList();
+      {
+        k.Creator = p;
+        return k;
+      }, splitOn: "id").ToList();
     }
   }
 }

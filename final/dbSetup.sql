@@ -6,11 +6,8 @@ CREATE TABLE IF NOT EXISTS accounts(
   email varchar(255) COMMENT 'User Email',
   picture varchar(255) COMMENT 'User Picture'
 ) default charset utf8 COMMENT '';
--- creatorId VarCHAR(255) NOT NULL,
---  FOREIGN KEY (creatorId)
---  REFERENCES accounts(id)
 CREATE TABLE IF NOT EXISTS keeps(
-  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   creatorId VARCHAR(255) NOT NULL,
   name VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
@@ -37,3 +34,13 @@ CREATE TABLE IF NOT EXISTS vaultkeep(
   FOREIGN KEY(vaultId) REFERENCES vaults(id) ON DELETE CASCADE,
   FOREIGN KEY(keepId) REFERENCES keeps(id) ON DELETE CASCADE
 ) default charset utf8;
+SELECT
+  k.*,
+  a.*
+FROM
+  keeps k
+  JOIN accounts a ON k.creatorId = a.id;
+DROP TABLE accounts;
+DROP table vaults;
+drop TABLE keeps;
+drop table vaultkeep;

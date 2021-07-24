@@ -21,10 +21,7 @@ namespace final.Services
       return newKeep;
     }
 
-    public List<Keep> GetAll()
-    {
-      return _kRepo.GetAll();
-    }
+
 
     public Keep GetOne(int id)
     {
@@ -53,6 +50,13 @@ namespace final.Services
         throw new Exception("Something Failed on this update");
       }
       throw new Exception("Incorrect User is trying to update");
+    }
+
+    public List<Keep> GetAll()
+    {
+      {
+        return _kRepo.GetAll();
+      }
     }
   }
 }
