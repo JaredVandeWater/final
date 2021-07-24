@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace final.Controllers
 {
   [ApiController]
-  [Route("[controller]")]
+  [Route("api/[controller]")]
 
   public class KeepsController : ControllerBase
   {

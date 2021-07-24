@@ -59,8 +59,8 @@ namespace final.Repositories
                  SELECT 
                     k.*,
                     a.*
-                FROM keeps g
-                JOIN accounts a ON g.creatorId = a.id;
+                FROM keeps k
+                JOIN accounts a ON k.creatorId = a.id;
             ";
       return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
            {
