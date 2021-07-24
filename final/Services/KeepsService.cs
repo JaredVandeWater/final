@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using final.Models;
 using final.Repositories;
 
@@ -20,7 +21,7 @@ namespace final.Services
       return newKeep;
     }
 
-    public Keep GetAll()
+    public List<Keep> GetAll()
     {
       return _kRepo.GetAll();
     }
@@ -44,7 +45,6 @@ namespace final.Services
         kData.Name = kData.Name ?? original.Name;
         kData.Description = kData.Description ?? original.Description;
         kData.Img = kData.Img ?? original.Img;
-        kData.Views += 1;
 
         if (_kRepo.Put(kData) > 0)
         {
