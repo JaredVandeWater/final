@@ -68,22 +68,39 @@ namespace final.Controllers
         return BadRequest(e.Message);
       }
     }
-
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<ActionResult<Keep>> Put(int id, [FromBody] Keep kData)
     {
       try
       {
         Account account = await HttpContext.GetUserInfoAsync<Account>();
+        kData.Id = id;
         Keep k = _ks.Put(kData, account.Id);
         return Ok(k);
       }
-      catch (System.Exception)
+      catch (System.Exception e)
       {
-
-        throw;
+        return BadRequest(e.Message);
       }
     }
+    [Authorize]
+    [HttpDelete("{id}")]
+
+    public async Task<ActionResult<string>> Delete(int id)
+    {
+      try
+      {
+        Account account = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_ks.Delete(id, account.Id));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+
+    }
+
   }
 }
 

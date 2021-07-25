@@ -18,7 +18,15 @@ namespace final.Services
     {
       int id = _kRepo.Post(newKeep);
       newKeep.Id = id;
-      return newKeep;
+
+      var keep = _kRepo.GetOne(id);
+
+      if (keep != null)
+      {
+        return keep;
+      }
+      throw new Exception("Not sure how this is null, you just made it.");
+
     }
 
 
@@ -36,19 +44,18 @@ namespace final.Services
 
     public Keep Put(Keep kData, string accountId)
     {
-      var keep = _kRepo.GetOne(kData.Id);
+      Keep keep = _kRepo.GetOne(kData.Id);
       if (keep == null)
       {
         throw new Exception("bad id");
       }
-      // is this right??????
       if (keep.CreatorId != accountId)
       {
         throw new Exception("incorrect user");
       }
-      group.Name = groupData.Name ?? group.Name;
-      group.Img = groupData.Img ?? group.Img;
-      group.Description = groupData.Description ?? group.Description;
+      keep.Name = kData.Name ?? keep.Name;
+      keep.Description = kData.Description ?? keep.Description;
+      keep.Img = kData.Img ?? keep.Img;
 
       return _kRepo.Put(keep);
     }
@@ -58,6 +65,20 @@ namespace final.Services
       {
         return _kRepo.GetAll();
       }
+    }
+
+    public string Delete(int id, string accountId)
+    {
+      Keep keep = GetOne(id);
+      if (keep?.CreatorId == accountId)
+      {
+        if (_kRepo.Delete(id) > 0)
+        {
+          return "Deleted";
+        }
+        return "Bad Id";
+      }
+      return "Unauthorized User";
     }
   }
 }

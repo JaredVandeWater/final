@@ -22,8 +22,8 @@ namespace final.Repositories
       string sql = @"
       UPDATE keeps 
       SET
-      name = @Name
-      description = @Description
+      name = @Name,
+      description = @Description,
       img = @Img
       WHERE id = @id;";
       var rowsAffected = _db.Execute(sql, kData);
@@ -52,7 +52,7 @@ namespace final.Repositories
 
 
     // get one keep
-    internal Keep GetOne(int id)
+    public Keep GetOne(int id)
     {
       string sql = @"
                 SELECT 
@@ -60,14 +60,21 @@ namespace final.Repositories
                     a.*
                 FROM keeps k
                 JOIN accounts a ON k.creatorId = a.id
-                WHERE k.id = @id;
-            ";
+                WHERE k.id = @id;";
 
       return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
         {
           k.Creator = p;
           return k;
         }, new { id }).FirstOrDefault();
+    }
+
+    public int Delete(int id)
+    {
+      string sql = @"
+      DELETE FROM keeps
+      WHERE id = @id;";
+      return _db.Execute(sql, new { id });
     }
 
 
