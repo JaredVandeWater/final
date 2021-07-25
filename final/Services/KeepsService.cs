@@ -76,9 +76,9 @@ namespace final.Services
         {
           return "Deleted";
         }
-        return "Bad Id";
+        throw new Exception("Bad Id");
       }
-      return "Unauthorized User";
+      throw new Exception("Unauthorized");
     }
   }
 }
