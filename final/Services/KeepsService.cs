@@ -34,22 +34,23 @@ namespace final.Services
       throw new Exception("Cannot Get Keep - Id does not exist");
     }
 
-    public Keep Put(Keep kData)
+    public Keep Put(Keep kData, string accountId)
     {
-      Keep original = GetOne(kData.Id);
-      if (original.CreatorId == kData.CreatorId)
+      var keep = _kRepo.GetOne(kData.Id);
+      if (keep == null)
       {
-        kData.Name = kData.Name ?? original.Name;
-        kData.Description = kData.Description ?? original.Description;
-        kData.Img = kData.Img ?? original.Img;
-
-        if (_kRepo.Put(kData) > 0)
-        {
-          return kData;
-        }
-        throw new Exception("Something Failed on this update");
+        throw new Exception("bad id");
       }
-      throw new Exception("Incorrect User is trying to update");
+      // is this right??????
+      if (keep.CreatorId != accountId)
+      {
+        throw new Exception("incorrect user");
+      }
+      group.Name = groupData.Name ?? group.Name;
+      group.Img = groupData.Img ?? group.Img;
+      group.Description = groupData.Description ?? group.Description;
+
+      return _kRepo.Put(keep);
     }
 
     public List<Keep> GetAll()

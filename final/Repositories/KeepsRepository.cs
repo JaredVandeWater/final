@@ -17,15 +17,25 @@ namespace final.Repositories
     }
 
     // edit a keep
-    internal int Put(Keep kData)
+    public Keep Put(Keep kData)
     {
       string sql = @"
-      UPDATE keeps SET
+      UPDATE keeps 
+      SET
       name = @Name
       description = @Description
       img = @Img
       WHERE id = @id;";
-      return _db.Execute(sql, kData);
+      var rowsAffected = _db.Execute(sql, kData);
+      if (rowsAffected > 1)
+      {
+        throw new Exception("More than one row updated, not good.");
+      }
+      if (rowsAffected < 1)
+      {
+        throw new Exception("Update Failed");
+      }
+      return kData;
     }
 
 
@@ -45,9 +55,19 @@ namespace final.Repositories
     internal Keep GetOne(int id)
     {
       string sql = @"
-      SELECT * FROM keeps
-      WHERE id = @id;";
-      return _db.QueryFirstOrDefault<Keep>(sql, new { id });
+                SELECT 
+                    k.*,
+                    a.*
+                FROM keeps k
+                JOIN accounts a ON k.creatorId = a.id
+                WHERE k.id = @id;
+            ";
+
+      return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
+        {
+          k.Creator = p;
+          return k;
+        }, new { id }).FirstOrDefault();
     }
 
 

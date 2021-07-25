@@ -75,9 +75,8 @@ namespace final.Controllers
       try
       {
         Account account = await HttpContext.GetUserInfoAsync<Account>();
-        kData.Id = id;
-        kData.CreatorId = account.Id;
-        return Ok(_ks.Put(kData));
+        Keep k = _ks.Put(kData, account.Id);
+        return Ok(k);
       }
       catch (System.Exception)
       {
