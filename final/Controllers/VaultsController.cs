@@ -47,8 +47,17 @@ namespace final.Controllers
     {
       try
       {
+        bool signedIn = false;
         Account account = await HttpContext.GetUserInfoAsync<Account>();
-        Vault vault = _vs.GetOne(id, account?.Id);
+        string accountId = "null";
+        if (account != null)
+        {
+          accountId = account.Id;
+          signedIn = true;
+        }
+        else signedIn = false;
+
+        Vault vault = _vs.GetOne(id, accountId, signedIn);
         return Ok(vault);
       }
       catch (System.Exception e)

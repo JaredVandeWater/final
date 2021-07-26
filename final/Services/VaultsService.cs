@@ -31,34 +31,51 @@ namespace final.Services
 
 
 
-    public Vault GetOne(int id, string AccountId)
+    public Vault GetOne(int id, string AccountId, bool signedIn)
     {
       Vault vault = _vRepo.GetOne(id);
       if (vault != null)
       {
-
-        if (AccountId != null)
+        if (signedIn)
         {
 
           if (AccountId == vault.CreatorId)
           {
             return vault;
           }
-          else
+
+
+          if (AccountId != vault.CreatorId)
           {
+            if (vault.IsPrivate)
+            {
+              throw new Exception("Cannot Get Vault - Unauthorized");
+            }
             if (!vault.IsPrivate)
             {
               return vault;
             }
-            else
-            {
-              throw new Exception("Cannot Get Vault - Unauthorized");
-            }
+          }
+
+        }
+        if (!signedIn)
+        {
+          if (vault.IsPrivate)
+          {
+            throw new Exception("Cannot Get Vault - Unauthorized");
+          }
+          else
+          {
+            return vault;
           }
         }
+
+
       }
-      throw new Exception("Cannot Get Vault - Id does not exist");
+      throw new Exception("Vault Id not found");
     }
+
+
 
     public Vault Put(Vault kData, string accountId)
     {
