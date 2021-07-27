@@ -33,6 +33,8 @@ namespace final.Controllers
       {
         Account account = await HttpContext.GetUserInfoAsync<Account>();
         newVault.CreatorId = account.Id;
+
+
         return Ok(_vs.Post(newVault));
       }
       catch (System.Exception e)

@@ -20,15 +20,21 @@ namespace final.Services
     // create vaultkeep, get a vault, make sure its not null, and add a keep to it
     public VaultKeep Post(VaultKeep newVaultKeepData)
     {
-      int vaultKeepId = _vkRepo.Post(newVaultKeepData);
-
-      VaultKeep vaultKeep = _vkRepo.GetOne(vaultKeepId);
-
-      if (vaultKeep != null)
+      Vault vault = _vRepo.GetOne(newVaultKeepData.VaultId);
+      if (vault != null && vault.CreatorId == newVaultKeepData.CreatorId)
       {
-        return vaultKeep;
+        int id = _vkRepo.Post(newVaultKeepData);
+        VaultKeep vaultKeep = _vkRepo.GetOne(id);
+        if (vaultKeep != null)
+        {
+          return vaultKeep;
+        }
+        else
+        {
+          throw new Exception("VaultKeep Null");
+        }
       }
-      throw new Exception("Not sure how this is null, you just made it.");
+      throw new Exception("Invalid User or Vault is Null");
     }
 
     public List<Keep> GetKeepsByVaultId(int id, string accountId, bool signedIn)
