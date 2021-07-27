@@ -1,6 +1,9 @@
 <template>
-  <div class="col-6 align-self-center col-md-3">
-    <img class="w-100" :src="state.img" alt="Card image cap">
+  <div class="card">
+    <img class="card-img-top" :src="state.img" alt="Card image cap">
+  </div>
+  <div class="position-relative">
+    <img class="rounded-circle creator-pic" :src="state.creator.picture" :alt="state.creator.name">
   </div>
 </template>
 
@@ -10,7 +13,8 @@ export default {
   props: { keep: { type: Object, required: true } },
   setup(props) {
     const state = reactive({
-      img: props.keep.img
+      img: props.keep.img,
+      creator: props.keep.creator
 
     })
     return {
@@ -21,5 +25,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.creator-pic{
+  height: 40px;
+}
 </style>
