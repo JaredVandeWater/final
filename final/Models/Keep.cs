@@ -11,5 +11,7 @@ namespace final.Models
     public int Shares { get; set; }
     public int Keeps { get; set; }
     public Profile Creator { get; set; }
+    public int vaultKeepId { get; set; }
+
   }
 }

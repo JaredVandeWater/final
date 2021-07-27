@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
 using final.Models;
@@ -21,18 +22,37 @@ namespace final.Controllers
 
     [HttpPost]
     [Authorize]
-    async public Task<ActionResult<Keep>> Post([FromBody] VaultKeep newVaultKeep)
+    async public Task<ActionResult<VaultKeep>> Post([FromBody] VaultKeep newVaultKeepData)
     {
       try
       {
         Account account = await HttpContext.GetUserInfoAsync<Account>();
-        newVaultKeep.CreatorId = account.Id;
-        return Ok(_vks.Post(newVaultKeep));
+        newVaultKeepData.CreatorId = account.Id;
+        return Ok(_vks.Post(newVaultKeepData));
       }
       catch (System.Exception e)
       {
         return BadRequest(e.Message);
       }
+    }
+
+
+
+    [Authorize]
+    [HttpDelete("{id}")]
+
+    public async Task<ActionResult<string>> Delete(int id)
+    {
+      try
+      {
+        Account account = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_vks.Delete(id, account.Id));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+
     }
   }
 }
