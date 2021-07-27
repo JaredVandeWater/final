@@ -1,11 +1,14 @@
 <template>
+  <KeepModal />
   <div class="container-fluid">
     <div class="row fixed-top">
       <Navbar />
     </div>
     <div class="navspacer"></div>
-
-    <div class="card-columns">
+    <div v-if="!state.keeps">
+      Loading...
+    </div>
+    <div v-else class="card-columns">
       <Keep v-for="keep in state.keeps" :key="keep.id" :keep="keep" />
     </div>
   </div>
@@ -19,7 +22,6 @@ export default {
   name: 'Home',
   setup() {
     const state = reactive({
-      account: computed(() => AppState.account),
       keeps: computed(() => AppState.keeps)
     })
     onMounted(async() => {
