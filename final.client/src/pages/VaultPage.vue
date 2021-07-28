@@ -1,12 +1,19 @@
 <template>
-  <div v-if="state.account && state.profile && state.keeps" class="container-fluid">
+  <KeepModal />
+  <div v-if="state.account && state.profile && state.keeps && state.activeVault" class="container-fluid">
     <div class="row fixed-top">
       <Navbar />
     </div>
     <div class="navspacer"></div>
 
     <div class="row m-4">
-      <h1> Keeps </h1>
+      <h1 class="mb-2">
+        Keeps
+      </h1>
+
+      <button v-if="state.account.id === state.activeVault.creatorId" @click="deleteVault" class="btn">
+        <i class="mdi mdi-delete mdi-24px"></i>
+      </button>
     </div>
 
     <div class="row">
@@ -29,6 +36,7 @@ import { keepsService } from '../services/KeepsService'
 import Pop from '../utils/Notifier'
 
 import { useRoute } from 'vue-router'
+import { vaultsService } from '../services/VaultsService'
 
 export default {
   name: 'Profile',
@@ -38,7 +46,8 @@ export default {
       profile: computed(() => AppState.activeProfile),
       keeps: computed(() => AppState.keeps),
       vaults: computed(() => AppState.vaults),
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      activeVault: computed(() => AppState.activeVault)
 
     })
 
@@ -52,10 +61,25 @@ export default {
         } catch (error) {
           Pop.toast(error, 'error')
         }
+        try {
+          AppState.activeVault = {}
+          await vaultsService.getVault(route.params.id)
+        } catch (error) {
+
+        }
       }
     })
     return {
-      state
+      state,
+      async deleteVault() {
+        try {
+          if (await Pop.confirm('Are you sure?', "You won't be able to revert this!", 'warning', 'Yes, delete it!')) {
+            await vaultsService.deleteVault(route.params.id)
+          }
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      }
 
     }
   }
