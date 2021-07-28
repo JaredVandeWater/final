@@ -20,37 +20,11 @@
           Login
         </button>
 
-        <div class="dropdown hoverable" v-else>
-          <div
-            class="dropdown-toggle"
-            @click="state.dropOpen = !state.dropOpen"
-          >
-            <img
-              :src="user.picture"
-              alt="user photo"
-              height="40"
-              class="rounded"
-            />
-            <span class="mx-3">{{ user.name }}</span>
-          </div>
-          <div
-            class="dropdown-menu p-0 list-group w-100"
-            :class="{ show: state.dropOpen }"
-            @click="state.dropOpen = false"
-          >
-            <router-link :to="{ name: 'Account' }">
-              <div class="list-group-item list-group-item-action hoverable">
-                Account
-              </div>
-            </router-link>
-            <div
-              class="list-group-item list-group-item-action hoverable"
-              @click="logout"
-            >
-              logout
-            </div>
-          </div>
-        </div>
+        <button @click="toProfile" class=" d-flex btn btn-light p-0 p-1 " v-else>
+          <img class="profpic rounded-circle mx-2" :src="state.account.picture" alt="ProfilePic">
+
+          <p class=" m-0 mr-2 mt-1">{{ state.account.name }}</p>
+        </button>
       </span>
     </div>
   </nav>
@@ -60,19 +34,26 @@
 import { AuthService } from '../services/AuthService'
 import { AppState } from '../AppState'
 import { computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { router } from '../router'
 export default {
   setup() {
+    const router = useRouter()
     const state = reactive({
-      dropOpen: false
+      account: computed(() => AppState.account)
     })
     return {
       state,
       user: computed(() => AppState.user),
+
       async login() {
         AuthService.loginWithPopup()
       },
       async logout() {
         AuthService.logout({ returnTo: window.location.origin })
+      },
+      toProfile() {
+        router.push({ name: 'Profile', params: { id: state.account.id } })
       }
     }
   }
@@ -104,5 +85,8 @@ a:hover {
 
 .min100vw{
   min-width: 100vw;
+}
+.profpic{
+  height: 30px;
 }
 </style>

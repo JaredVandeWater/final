@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive } from '@vue/runtime-core'
+import { computed, reactive, watchEffect } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
 import Pop from '../utils/Notifier'
@@ -25,9 +25,10 @@ export default {
     const state = reactive({
       keeps: computed(() => AppState.keeps)
     })
-    onMounted(async() => {
+    watchEffect(async() => {
       window.scrollTo({ top: 0 })
       try {
+        AppState.keeps = []
         await keepsService.getAllKeeps()
       } catch (error) {
         Pop.toast(error, 'error')

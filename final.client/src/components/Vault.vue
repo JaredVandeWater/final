@@ -1,34 +1,27 @@
 <template>
-  <div v-if="state.creator" @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable">
-    <img class="card-img-top" :src="state.img" alt="Card image cap">
+  <div v-if="state.creator" @click="goToVault" class=" m-2 position-relative card hoverable">
+    <img class="card-img-top vault" src="https://thumbs.dreamstime.com/b/silver-safe-dial-d-rendering-isolated-white-background-106560450.jpg" alt="VaultImage">
     <div class="position-absolute titlepos">
       <h5 class="m-0 px-1 text-light">
-        {{ state.keepTitle }}
+        {{ state.vaultTitle }}
       </h5>
-    </div>
-    <div v-if="$route.name === 'Home'" class="position-absolute profpos">
-      <button class="btn" @click.stop="toProfilePage">
-        <img class="rounded-circle creator-pic px-1" :src="state.creator.picture" :alt="state.creator.name">
-      </button>
     </div>
   </div>
 </template>
 
 <script>
 import { reactive } from '@vue/reactivity'
-import { keepsService } from '../services/KeepsService'
 import { AppState } from '../AppState'
 import { useRouter } from 'vue-router'
 import Pop from '../utils/Notifier'
 export default {
-  props: { keep: { type: Object, required: true } },
+  props: { vault: { type: Object, required: true } },
   setup(props) {
     const router = useRouter()
     const state = reactive({
-      img: props.keep.img,
-      creator: props.keep.creator,
-      keepTitle: props.keep.name,
-      keepId: props.keep.id
+      creator: props.vault.creator,
+      vaultTitle: props.vault.name,
+      vaultId: props.vault.id
 
     })
     return {
@@ -40,10 +33,9 @@ export default {
           Pop.toast(error, 'error')
         }
       },
-      async setKeep() {
+      async goToVault() {
         try {
-          AppState.activeKeep = {}
-          await keepsService.getOneKeep(state.keepId)
+          router.push({ name: 'Vault', params: { id: state.vaultId } })
         } catch (error) {
           Pop.toast(error, 'error')
         }
@@ -66,5 +58,9 @@ export default {
 .profpos{
   bottom: 10px;
   right: 0;
+}
+.vault{
+  width: 12vw;
+  min-width: 150px;
 }
 </style>

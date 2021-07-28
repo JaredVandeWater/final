@@ -77,7 +77,6 @@
               </div>
             </div>
           </div>
-
           <!-- {{ state.activeKeep }} -->
         </div>
       </div>
@@ -92,10 +91,12 @@ import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
 import Pop from '../utils/Notifier'
 import $ from 'jquery'
+import { useRoute } from 'vue-router'
 
 export default {
 
   setup() {
+    const route = useRoute()
     const state = reactive({
       activeKeep: computed(() => AppState.activeKeep),
       creator: computed(() => AppState.activeKeep.creator),
@@ -107,7 +108,7 @@ export default {
       async deleteKeep() {
         try {
           if (await Pop.confirm('Are you sure?', "You won't be able to revert this!", 'warning', 'Yes, delete it!')) {
-            await keepsService.deleteKeep(state.activeKeep.id)
+            await keepsService.deleteKeep(state.activeKeep.id, route.name, route.params.id)
             $('#keepModal').modal('hide')
           }
         } catch (error) {

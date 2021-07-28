@@ -12,15 +12,30 @@ class KeepsService {
     AppState.activeKeep = res.data
   }
 
-  async deleteKeep(id) {
+  async deleteKeep(id, site, profId) {
     const res = await api.delete(`api/keeps/${id}`)
     AppState.keeps = AppState.keeps.filter(k => k.id !== res.data.id)
-    this.getAllKeeps()
+    if (site === 'Profile') {
+      this.getAllKeepsByProfileId(profId)
+    }
+    if (site === 'Home') {
+      this.getAllKeeps()
+    }
+  }
+
+  async getAllKeepsByVaultId(id) {
+    const res = await api.get(`api/vaults/${id}/keeps`)
+    AppState.keeps = res.data
   }
 
   async getAllKeepsByProfileId(id) {
     const res = await api.get(`api/profiles/${id}/keeps`)
     AppState.keeps = res.data
+  }
+
+  async createKeep(data) {
+    const res = await api.post('api/keeps', data)
+    AppState.keeps = [res.data, ...AppState.keeps]
   }
 }
 

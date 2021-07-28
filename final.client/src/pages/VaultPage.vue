@@ -1,7 +1,5 @@
 <template>
-  <KeepModal />
-  <CreateKeepModal />
-  <div v-if="state.account && state.profile && state.vaults && state.keeps" class="container-fluid">
+  <div v-if="state.account && state.profile && state.keeps" class="container-fluid">
     <div class="row fixed-top">
       <Navbar />
     </div>
@@ -39,7 +37,7 @@
 
 <script>
 import { reactive } from '@vue/reactivity'
-import { computed, watchEffect } from '@vue/runtime-core'
+import { computed, onMounted } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
 import Pop from '../utils/Notifier'
@@ -59,27 +57,20 @@ export default {
 
     })
 
-    watchEffect(async() => {
+    onMounted(async() => {
       window.scrollTo({ top: 0 })
       AppState.activeProfile = {}
-      if (route.name === 'Profile') {
-        try {
-          await profilesService.getProfile(route.params.id)
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
-        try {
-          AppState.keeps = []
-          await keepsService.getAllKeepsByProfileId(route.params.id)
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
-        try {
-          AppState.vaults = []
-          await vaultsService.getAllVaultsByProfileId(route.params.id)
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
+
+      try {
+        await profilesService.getProfile(route.params.id)
+      } catch (error) {
+        Pop.toast(error, 'error')
+      }
+      try {
+        AppState.keeps = []
+        await keepsService.getAllKeepsByVaultId(route.params.id)
+      } catch (error) {
+        Pop.toast(error, 'error')
       }
     })
     return {
