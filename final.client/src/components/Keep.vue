@@ -1,5 +1,5 @@
 <template>
-  <div v-if="state.creator" @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable">
+  <div @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable">
     <img class="card-img-top" :src="state.img" alt="Card image cap">
     <div class="position-absolute titlepos">
       <h5 class="m-0 px-1 text-light">
