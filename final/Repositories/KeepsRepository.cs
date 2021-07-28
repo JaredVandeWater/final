@@ -77,6 +77,23 @@ namespace final.Repositories
       return _db.Execute(sql, new { id });
     }
 
+    public List<Keep> GetKeepsByProfileId(string id)
+    {
+      string sql = @"
+                SELECT 
+                    k.*,
+                    a.*
+                FROM keeps k
+                JOIN accounts a ON k.creatorId = a.id
+                WHERE k.creatorId = @id;";
+
+      return _db.Query<Keep, Profile, Keep>(sql, (k, p) =>
+      {
+        k.Creator = p;
+        return k;
+      }, new { id }, splitOn: "id").ToList();
+    }
+
 
 
     // gets all keeps and adds profile to them
@@ -95,7 +112,9 @@ namespace final.Repositories
         return k;
       }, splitOn: "id").ToList();
     }
+
   }
+
 }
 
 

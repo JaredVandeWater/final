@@ -8,11 +8,13 @@ namespace final.Services
   public class ProfilesService
   {
     private readonly ProfilesRepository _repo;
+    private readonly KeepsRepository _kRepo;
     private readonly VaultsRepository _vRepo;
 
-    public ProfilesService(ProfilesRepository repo, VaultsRepository vRepo)
+    public ProfilesService(ProfilesRepository repo, KeepsRepository kRepo, VaultsRepository vRepo)
     {
       _repo = repo;
+      _kRepo = kRepo;
       _vRepo = vRepo;
     }
 
@@ -57,9 +59,10 @@ namespace final.Services
     public List<Keep> GetKeepsByProfileId(string id, string accountId, bool signedIn)
     {
 
-      List<Keep> Keep = _repo.GetKeepsByProfileId(id);
 
-      return Keep;
+      List<Keep> Keeps = _kRepo.GetKeepsByProfileId(id);
+
+      return Keeps;
 
     }
 
@@ -67,10 +70,21 @@ namespace final.Services
     public List<Vault> GetVaultsByProfileId(string id, string accountId, bool signedIn)
     {
       {
-        List<Vault> vaults = _repo.GetVaultsByProfileId(id);
 
-        return vaults;
+        if (id == accountId)
+        {
+          List<Vault> vaults = _vRepo.GetPrivateVaultsByProfileId(id);
+          return vaults;
+        }
+        else
+        {
+          List<Vault> vaults = _vRepo.GetPublicVaultsByProfileId(id);
+          return vaults;
+
+        }
+        throw new Exception("Cannot Get Vaults");
       }
+
     }
   }
 }

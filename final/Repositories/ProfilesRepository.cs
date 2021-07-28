@@ -57,28 +57,6 @@ namespace final.Repositories
       return _db.QueryFirstOrDefault<Profile>(sql, new { id });
     }
 
-    internal List<Keep> GetKeepsByProfileId(string id)
-    {
-      {
-        string sql = @"
-                SELECT * 
-                FROM keeps
-               WHERE keeps.creatorId === id;";
 
-        return _db.Query<Keep>(sql).ToList();
-      }
-    }
-
-    internal List<Vault> GetVaultsByProfileId(string id)
-    {
-      {
-        string sql = @"
-                SELECT * 
-                FROM vaults
-               WHERE vaults.creatorId === id;";
-
-        return _db.Query<Vault>(sql).ToList();
-      }
-    }
   }
 }

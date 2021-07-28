@@ -1,10 +1,12 @@
 <template>
-  <div @click="setKeep" data-toggle="modal" data-target="#keepModal" class="card hoverable">
+  <div @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable">
     <img class="card-img-top" :src="state.img" alt="Card image cap">
-    <div class="d-flex justify-content-between align-items-center">
-      <p class="m-0 px-1">
+    <div class="position-absolute titlepos">
+      <h5 class="m-0 px-1 text-light">
         {{ state.keepTitle }}
-      </p>
+      </h5>
+    </div>
+    <div class="position-absolute profpos">
       <router-link :to="{name: 'Profile', params:{id: state.creator.id}}">
         <img class="rounded-circle creator-pic px-1" :src="state.creator.picture" :alt="state.creator.name">
       </router-link>
@@ -48,5 +50,12 @@ export default {
 }
 .hoverable{
   cursor: pointer;
+}
+.titlepos{
+  bottom: 10px;
+}
+.profpos{
+  bottom: 10px;
+  right: 0;
 }
 </style>

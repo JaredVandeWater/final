@@ -69,6 +69,41 @@ namespace final.Repositories
         }, new { id }).FirstOrDefault();
     }
 
+
+    internal List<Vault> GetPrivateVaultsByProfileId(string id)
+    {
+      string sql = @"
+                SELECT 
+                    v.*,
+                    a.*
+                FROM vaults v
+                JOIN accounts a ON v.creatorId = a.id
+                WHERE v.creatorId = @id;";
+
+      return _db.Query<Vault, Profile, Vault>(sql, (v, p) =>
+      {
+        v.Creator = p;
+        return v;
+      }, new { id }, splitOn: "id").ToList();
+    }
+
+    internal List<Vault> GetPublicVaultsByProfileId(string id)
+    {
+      string sql = @"
+                SELECT 
+                    v.*,
+                    a.*
+                FROM vaults v
+                JOIN accounts a ON v.creatorId = a.id
+                WHERE v.creatorId = @id AND v.isPrivate = false;";
+
+      return _db.Query<Vault, Profile, Vault>(sql, (v, p) =>
+      {
+        v.Creator = p;
+        return v;
+      }, new { id }, splitOn: "id").ToList();
+    }
+
     public int Delete(int id)
     {
       string sql = @"
@@ -76,6 +111,7 @@ namespace final.Repositories
       WHERE id = @id;";
       return _db.Execute(sql, new { id });
     }
+
 
   }
 }
