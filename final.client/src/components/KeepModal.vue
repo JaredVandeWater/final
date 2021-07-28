@@ -89,6 +89,10 @@
 import { reactive } from '@vue/reactivity'
 import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
+import { keepsService } from '../services/KeepsService'
+import Pop from '../utils/Notifier'
+import $ from 'jquery'
+
 export default {
 
   setup() {
@@ -99,7 +103,17 @@ export default {
 
     })
     return {
-      state
+      state,
+      async deleteKeep() {
+        try {
+          if (await Pop.confirm('Are you sure?', "You won't be able to revert this!", 'warning', 'Yes, delete it!')) {
+            await keepsService.deleteKeep(state.activeKeep.id)
+            $('#keepModal').modal('hide')
+          }
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      }
     }
   }
 

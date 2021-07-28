@@ -33,7 +33,6 @@ export default {
       async setKeep() {
         try {
           AppState.activeKeep = {}
-          console.log('set')
           await keepsService.getOneKeep(state.keepId)
         } catch (error) {
           Notification.toast(error, 'error')
