@@ -1,31 +1,34 @@
 
 <template>
   <!-- Modal -->
-  <div class="modal fade"
-       id="keepModal"
-       tabindex="-1"
-       role="dialog"
-       aria-labelledby="keepModalTitle"
-       aria-hidden="true"
+  <div
+    class="modal fade"
+    id="keepModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="keepModalTitle"
+    aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-body p-0 py-2">
           <div class="container">
-            <div class="row">
-              <div class="col-12 col-md d-flex align-items-center justify-content-center">
+            <div class="row" v-if="state.creator">
+              <div class="col-12 col-lg d-flex align-items-center justify-content-center">
                 <img class="maxw-100" modal :src="state.activeKeep.img" alt="">
               </div>
               <div class="col-12 col-md position-relative">
                 <div class="row justify-content-between">
-                  <div class="">
-                    <button class="btn">
+                  <div class="col">
+                    <button v-if="state.account.id === state.creator.id" @click="deleteKeep" class="btn">
                       <i class="mdi mdi-delete"></i>
                     </button>
                   </div>
-                  <button type="button" class="btn" data-dismiss="modal">
-                    <i class="mdi mdi-close"></i>
-                  </button>
+                  <div class="col d-flex justify-content-end">
+                    <button type="button" class="btn" data-dismiss="modal">
+                      <i class="mdi mdi-close"></i>
+                    </button>
+                  </div>
                 </div>
                 <div class="row py-1 pb-2 justify-content-center">
                   <div class="col d-flex justify-content-end">
@@ -39,20 +42,21 @@
                     <i class="mdi mdi-share-variant d-flex"><p class="pl-1">{{ state.activeKeep.shares }}</p></i>
                   </div>
                 </div>
-                <div class="row justify-content-center">
-                  <h3>
+                <div class="row justify-content-center mx-2">
+                  <h3 class="owr">
                     {{ state.activeKeep.name }}
                   </h3>
                 </div>
-                <div class="row">
-                  <p>
+                <div class="row mx-2">
+                  <p class="owr">
                     {{ state.activeKeep.description }}
                   </p>
                 </div>
                 <hr>
-                <div class="position-absolute vaultbuttonrow">
+                <div class="spacer"></div>
+                <div class="position-absolute vaultbuttonrow ">
                   <div class="dropdown ">
-                    <button class="btn btn-info dropdown-toggle"
+                    <button class="btn btn-info dropdown-toggle ml-lg-0 ml-2"
                             type="button"
                             id="dropdownMenuButton"
                             data-toggle="dropdown"
@@ -66,9 +70,9 @@
                     </div>
                   </div>
                 </div>
-                <div>
-                  <img v-if="state.creator" class="rounded-circle position-absolute creator-pic px-1" :src="state.creator" alt="">
-                  <small v-if="state.creator">{{ state.creator }}</small>
+                <div class="position-absolute namepos">
+                  <img class="rounded-circle creator-pic px-1" :src="state.creator.picture" alt="">
+                  <small class="pr-2">{{ state.creator.name }}</small>
                 </div>
               </div>
             </div>
@@ -90,7 +94,8 @@ export default {
   setup() {
     const state = reactive({
       activeKeep: computed(() => AppState.activeKeep),
-      creator: computed(() => AppState.activeKeep.creator)
+      creator: computed(() => AppState.activeKeep.creator),
+      account: computed(() => AppState.account)
 
     })
     return {
@@ -107,6 +112,7 @@ export default {
   max-height: 40vh;
   min-height: 300px;
   object-fit: contain;
+  background-color: black;
 }
 .vaultbuttonrow{
   bottom: 0;
@@ -120,5 +126,15 @@ export default {
   width: 35px;
   right: 0;
   bottom: 0;
+}
+.spacer{
+  min-height: 50px;
+}
+.namepos{
+  right: 0;
+  bottom: 0;
+}
+.owr{
+  overflow-wrap: anywhere;
 }
 </style>
