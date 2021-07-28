@@ -1,5 +1,5 @@
 <template>
-  <div @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable">
+  <div v-if="state.creator" @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable">
     <img class="card-img-top" :src="state.img" alt="Card image cap">
     <div class="position-absolute titlepos">
       <h5 class="m-0 px-1 text-light">
@@ -7,9 +7,9 @@
       </h5>
     </div>
     <div class="position-absolute profpos">
-      <router-link :to="{name: 'Profile', params:{id: state.creator.id}}">
+      <button class="btn" @click.stop="toProfilePage">
         <img class="rounded-circle creator-pic px-1" :src="state.creator.picture" :alt="state.creator.name">
-      </router-link>
+      </button>
     </div>
   </div>
 </template>
@@ -18,9 +18,12 @@
 import { reactive } from '@vue/reactivity'
 import { keepsService } from '../services/KeepsService'
 import { AppState } from '../AppState'
+import { useRouter } from 'vue-router'
+import Pop from '../utils/Notifier'
 export default {
   props: { keep: { type: Object, required: true } },
   setup(props) {
+    const router = useRouter()
     const state = reactive({
       img: props.keep.img,
       creator: props.keep.creator,
@@ -30,12 +33,19 @@ export default {
     })
     return {
       state,
+      toProfilePage() {
+        try {
+          router.push({ name: 'Profile', params: { id: state.creator.id } })
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      },
       async setKeep() {
         try {
           AppState.activeKeep = {}
           await keepsService.getOneKeep(state.keepId)
         } catch (error) {
-          Notification.toast(error, 'error')
+          Pop.toast(error, 'error')
         }
       }
     }

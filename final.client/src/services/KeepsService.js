@@ -17,6 +17,11 @@ class KeepsService {
     AppState.keeps = AppState.keeps.filter(k => k.id !== res.data.id)
     this.getAllKeeps()
   }
+
+  async getAllKeepsByProfileId(id) {
+    const res = await api.get(`api/profiles/${id}/keeps`)
+    AppState.keeps = res.data
+  }
 }
 
 export const keepsService = new KeepsService()

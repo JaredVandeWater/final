@@ -3,7 +3,7 @@ import { api } from './AxiosService'
 
 class ProfilesService {
   async getProfile(id) {
-    const res = await api.get(`api/profile/${id}`)
+    const res = await api.get(`api/profiles/${id}`)
     AppState.activeProfile = res.data
   }
 }

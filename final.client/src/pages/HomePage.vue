@@ -18,6 +18,7 @@
 import { computed, onMounted, reactive } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
+import Pop from '../utils/Notifier'
 export default {
   name: 'Home',
   setup() {
@@ -29,7 +30,7 @@ export default {
       try {
         await keepsService.getAllKeeps()
       } catch (error) {
-        Notification.toast(error, 'error')
+        Pop.toast(error, 'error')
       }
     })
     return {
