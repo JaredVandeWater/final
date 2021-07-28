@@ -14,7 +14,7 @@
         <div class="modal-body p-0 py-2">
           <div class="container">
             <div class="row" v-if="state.creator">
-              <div class="col-12 col-lg d-flex align-items-center justify-content-center">
+              <div class="col-12 col-lg d-flex align-items-center justify-content-center hset">
                 <img class="maxw-100" modal :src="state.activeKeep.img" alt="">
               </div>
               <div class="col-12 col-md position-relative">
@@ -48,7 +48,7 @@
                   </h3>
                 </div>
                 <div class="row mx-2">
-                  <p class="owr">
+                  <p class="owr hset2 ">
                     {{ state.activeKeep.description }}
                   </p>
                 </div>
@@ -150,5 +150,13 @@ export default {
 }
 .owr{
   overflow-wrap: anywhere;
+}
+.hset{
+  max-height: 45vh;
+
+}
+.hset2{
+   max-height: 22vh;
+   overflow-y: auto ;
 }
 </style>
