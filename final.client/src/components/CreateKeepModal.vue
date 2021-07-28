@@ -79,7 +79,6 @@ export default {
       state,
       async createKeep() {
         try {
-          console.log(state.newKeep)
           await keepsService.createKeep(state.newKeep)
           $('#keepcreator').modal('hide')
         } catch (error) {

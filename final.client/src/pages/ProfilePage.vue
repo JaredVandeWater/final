@@ -1,5 +1,6 @@
 <template>
   <KeepModal />
+  <CreateVaultModal />
   <CreateKeepModal />
   <div v-if="state.account && state.profile && state.vaults && state.keeps" class="container-fluid">
     <div class="row fixed-top">
@@ -18,7 +19,7 @@
     </div>
     <div class="row mx-4 mt-3">
       <h1>Vaults</h1>
-      <button v-if="state.account.id === state.profile.id" class="btn">
+      <button v-if="state.account.id === state.profile.id" data-toggle="modal" data-target="#vaultcreator" class="btn">
         <i class="mdi mdi-plus mdi-24px"></i>
       </button>
     </div>
