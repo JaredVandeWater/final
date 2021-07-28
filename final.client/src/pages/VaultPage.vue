@@ -35,12 +35,13 @@ import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
 import Pop from '../utils/Notifier'
 
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { vaultsService } from '../services/VaultsService'
 
 export default {
   name: 'Profile',
   setup() {
+    const router = useRouter()
     const route = useRoute()
     const state = reactive({
       profile: computed(() => AppState.activeProfile),
@@ -75,6 +76,7 @@ export default {
         try {
           if (await Pop.confirm('Are you sure?', "You won't be able to revert this!", 'warning', 'Yes, delete it!')) {
             await vaultsService.deleteVault(route.params.id)
+            router.push({ name: 'Profile', params: { id: state.activeVault.creatorId } })
           }
         } catch (error) {
           Pop.toast(error, 'error')

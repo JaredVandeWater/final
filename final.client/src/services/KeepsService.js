@@ -25,9 +25,7 @@ class KeepsService {
 
   async getAllKeepsByVaultId(id) {
     const res = await api.get(`api/vaults/${id}/keeps`)
-    console.log(res)
     AppState.keeps = res.data
-    console.log(AppState.keeps)
   }
 
   async getAllKeepsByProfileId(id) {
