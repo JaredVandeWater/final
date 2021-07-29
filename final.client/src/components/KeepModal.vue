@@ -13,7 +13,7 @@
       <div class="modal-content">
         <div class="modal-body p-0 py-2">
           <div class="container">
-            <div class="row" v-if="state.creator">
+            <div class="row" v-if="state.creator && state.myVaults">
               <div class="col-12 col-lg d-flex align-items-center justify-content-center hset">
                 <img class="maxw-100" modal :src="state.activeKeep.img" alt="">
               </div>
@@ -57,11 +57,11 @@
                 <div class="spacer"></div>
                 <div class="position-absolute vaultbuttonrow ">
                   <form>
-                    <select class="btn btn-sm btn-primary">
-                      <option selected>
-                        Add To Vault
+                    <select @change="addToVault($event.target.value)" class="btn btn-sm btn-primary">
+                      <option value="" selected disabled hidden>
+                        Put into Vault
                       </option>
-                      <option @click="addToVault" v-for="vault in state.myVaults" :value="vault.id" :key="vault.id">
+                      <option v-for="vault in state.myVaults" :value="vault.id" :key="vault.id">
                         {{ vault.name }}
                       </option>
                     </select>
@@ -74,7 +74,6 @@
               </div>
             </div>
           </div>
-          <!-- {{ state.activeKeep }} -->
         </div>
       </div>
     </div>
@@ -86,7 +85,6 @@ import { reactive } from '@vue/reactivity'
 import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
-import { vaultsService } from '../services/VaultsService'
 import Pop from '../utils/Notifier'
 import $ from 'jquery'
 import { useRoute } from 'vue-router'
@@ -99,7 +97,8 @@ export default {
       activeKeep: computed(() => AppState.activeKeep),
       creator: computed(() => AppState.activeKeep.creator),
       account: computed(() => AppState.account),
-      myVaults: computed(() => AppState.vaults)
+      myVaults: computed(() => AppState.vaults),
+      newVaultKeep: {}
 
     })
     return {
@@ -108,6 +107,21 @@ export default {
         try {
           if (await Pop.confirm('Are you sure?', "You won't be able to revert this!", 'warning', 'Yes, delete it!')) {
             await keepsService.deleteKeep(state.activeKeep.id, route.name, route.params.id)
+            $('#keepModal').modal('hide')
+          }
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      },
+      async addToVault(vault) {
+        try {
+          state.newVaultKeep = {}
+          state.newVaultKeep.keepId = state.activeKeep.id
+          state.newVaultKeep.vaultId = vault
+          console.log(vault)
+          console.log(state.newVaultKeep)
+          if (state.newVaultKeep.vaultId) {
+            await keepsService.addKeeptoVault(state.newVaultKeep)
             $('#keepModal').modal('hide')
           }
         } catch (error) {

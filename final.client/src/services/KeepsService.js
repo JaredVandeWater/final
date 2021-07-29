@@ -37,6 +37,10 @@ class KeepsService {
     const res = await api.post('api/keeps', data)
     AppState.keeps = [res.data, ...AppState.keeps]
   }
+
+  async addKeeptoVault(data) {
+    await api.post('api/vaultKeeps', data)
+  }
 }
 
 export const keepsService = new KeepsService()
