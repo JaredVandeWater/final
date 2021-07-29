@@ -78,7 +78,6 @@ export default {
       state,
       async createVault() {
         try {
-          console.log(state.newVault)
           await vaultsService.createVault(state.newVault, state.account.id)
           $('#vaultcreator').modal('hide')
         } catch (error) {
