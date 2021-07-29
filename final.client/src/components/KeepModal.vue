@@ -52,27 +52,20 @@
                     {{ state.activeKeep.description }}
                   </p>
                 </div>
-                {{ state.myVaults }}
+
                 <hr>
                 <div class="spacer"></div>
                 <div class="position-absolute vaultbuttonrow ">
-                  <div class="dropdown ">
-                    <button @click="getVaults"
-                            class="btn btn-info dropdown-toggle ml-lg-0 ml-2"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                    >
-                      Add To Vault
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <p v-for="vault in state.myVaults" :key="vault.id" class="dropdown-item" href="#">
+                  <form>
+                    <select class="btn btn-sm btn-primary">
+                      <option selected>
+                        Add To Vault
+                      </option>
+                      <option @click="addToVault" v-for="vault in state.myVaults" :value="vault.id" :key="vault.id">
                         {{ vault.name }}
-                      </p>
-                    </div>
-                  </div>
+                      </option>
+                    </select>
+                  </form>
                 </div>
                 <div class="position-absolute namepos">
                   <img class="rounded-circle creator-pic px-1" :src="state.creator.picture" alt="">
@@ -106,7 +99,7 @@ export default {
       activeKeep: computed(() => AppState.activeKeep),
       creator: computed(() => AppState.activeKeep.creator),
       account: computed(() => AppState.account),
-      myVaults: computed(() => AppState.myVaults)
+      myVaults: computed(() => AppState.vaults)
 
     })
     return {
@@ -120,14 +113,8 @@ export default {
         } catch (error) {
           Pop.toast(error, 'error')
         }
-      },
-      async getVaults() {
-        try {
-          await vaultsService.getAllVaultsByProfileId(state.account.id)
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
       }
+
     }
   }
 }
