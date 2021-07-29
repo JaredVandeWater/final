@@ -42,7 +42,7 @@
                     <i class="mdi mdi-share-variant d-flex"><p class="pl-1">{{ state.activeKeep.shares }}</p></i>
                   </div>
                 </div>
-                <div class="row justify-content-center mx-2">
+                <div class="row justify-content-center mx-2 ">
                   <h3 class="owr">
                     {{ state.activeKeep.name }}
                   </h3>
@@ -67,7 +67,7 @@
                     </select>
                   </form>
                 </div>
-                <div title="Profile Page" @click="toProfilePage" class="position-absolute hoverable namepos ">
+                <div title="Profile Page" @click="toProfilePage" class="position-absolute hoverable namepos mr-3">
                   <img class="rounded-circle creator-pic px-1" :src="state.creator.picture" alt="">
                   <small class="pr-2">{{ state.creator.name }}</small>
                 </div>

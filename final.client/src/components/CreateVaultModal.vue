@@ -22,11 +22,23 @@
           <div>
             <div class="form-group">
               <label for="title">Title</label>
-              <input v-model="state.newVault.Name" type="text" class="form-control" id="name" placeholder="Title...">
+              <input v-model="state.newVault.Name"
+                     type="text"
+                     class="form-control"
+                     id="name"
+                     placeholder="Title..."
+                     required
+              >
             </div>
             <div class="form-group">
               <label for="descr">Description</label>
-              <input v-model="state.newVault.Description" type="text" class="form-control" id="descr" placeholder="Vault Description...">
+              <input v-model="state.newVault.Description"
+                     type="text"
+                     class="form-control"
+                     id="descr"
+                     placeholder="Vault Description..."
+                     required
+              >
             </div>
 
             <div class="form-check">

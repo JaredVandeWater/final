@@ -7,7 +7,7 @@
     <div class="row ">
       <div class="mx-4">
         <div class="col">
-          <img :src="state.profile.picture" alt="Profile">
+          <img class="rounded" :src="state.profile.picture" alt="Profile">
         </div>
         <div class="col mt-2 d-flex justify-content-center">
           <button
@@ -29,7 +29,7 @@
     <div class="row mx-4 mt-3">
       <h1>Vaults</h1>
       <button title="Create Vault" v-if="state.account.id === state.profile.id" data-toggle="modal" data-target="#vaultcreator" class="btn">
-        <i class="mdi mdi-plus mdi-24px"></i>
+        <i class="text-danger mdi mdi-plus mdi-24px"></i>
       </button>
     </div>
 
@@ -39,7 +39,7 @@
     <div class="row m-4">
       <h1>Keeps</h1>
       <button title="Create Keep" v-if="state.account.id === state.profile.id" data-toggle="modal" data-target="#keepcreator" class="btn">
-        <i class="mdi mdi-plus mdi-24px"></i>
+        <i class="text-danger mdi mdi-plus mdi-24px"></i>
       </button>
     </div>
     <div class="card-columns">
