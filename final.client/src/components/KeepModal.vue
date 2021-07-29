@@ -57,7 +57,7 @@
                 <div class="spacer"></div>
                 <div class="position-absolute vaultbuttonrow ">
                   <form>
-                    <select @change="addToVault($event.target.value)" class="btn btn-sm btn-primary">
+                    <select @change="addToVault($event.target.value)" class="btn btn-sm btnsz btn-primary">
                       <option value="" selected disabled hidden>
                         Put into Vault
                       </option>
@@ -173,5 +173,8 @@ export default {
 .hset2{
    max-height: 22vh;
    overflow-y: auto ;
+}
+.btnsz{
+  max-width: 128px;
 }
 </style>

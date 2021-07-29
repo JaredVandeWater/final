@@ -9,12 +9,15 @@ namespace final.Services
   {
     private readonly VaultsRepository _vRepo;
     private readonly VaultKeepsRepository _vkRepo;
+    private readonly KeepsRepository _kRepo;
 
-    public VaultKeepsService(VaultsRepository vRepo, VaultKeepsRepository vkRepo)
+    public VaultKeepsService(VaultsRepository vRepo, VaultKeepsRepository vkRepo, KeepsRepository kRepo)
     {
       _vRepo = vRepo;
       _vkRepo = vkRepo;
+      _kRepo = kRepo;
     }
+
 
 
     // create vaultkeep, get a vault, make sure its not null, and add a keep to it
@@ -27,7 +30,9 @@ namespace final.Services
         VaultKeep vaultKeep = _vkRepo.GetOne(id);
         if (vaultKeep != null)
         {
-
+          Keep keep = _kRepo.GetOne(vaultKeep.KeepId);
+          keep.Keeps += 1;
+          _vkRepo.EditKeepCount(keep);
           return vaultKeep;
         }
         else
@@ -72,6 +77,9 @@ namespace final.Services
       {
         if (_vkRepo.Delete(id) > 0)
         {
+          Keep keep = _kRepo.GetOne(vaultKeep.KeepId);
+          keep.Keeps -= 1;
+          _vkRepo.EditKeepCount(keep);
           return "Deleted";
         }
         throw new Exception("Bad Id");

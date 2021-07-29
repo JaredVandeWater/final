@@ -43,6 +43,24 @@ namespace final.Repositories
       }, new { id }, splitOn: "id").ToList();
     }
 
+    public Keep EditKeepCount(Keep keep)
+    {
+      string sql = @"
+      UPDATE keeps 
+      SET
+      keeps = @Keeps
+      WHERE id = @id;";
+      var rowsAffected = _db.Execute(sql, keep);
+      if (rowsAffected > 1)
+      {
+        throw new Exception("More than one row updated, not good.");
+      }
+      if (rowsAffected < 1)
+      {
+        throw new Exception("Keep Update Failed");
+      }
+      return keep;
+    }
 
     public VaultKeep GetOne(int id)
     {
