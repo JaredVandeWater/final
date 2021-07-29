@@ -67,6 +67,9 @@ export default {
         } catch (error) {
 
         }
+        if (state.activeVault.isPrivate) {
+          if (state.account.id !== state.activeVault.creatorId) { router.push({ name: 'Home' }) }
+        }
       }
     })
     return {

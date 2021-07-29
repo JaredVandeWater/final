@@ -1,7 +1,4 @@
 <template>
-  <KeepModal />
-  <CreateVaultModal />
-  <CreateKeepModal />
   <div v-if="state.account && state.profile && state.vaults && state.keeps && state.user" class="container-fluid">
     <div class="row fixed-top">
       <Navbar />
@@ -47,12 +44,15 @@
     <div class="card-columns">
       <Keep v-for="keep in state.keeps" :key="keep.id" :keep="keep" />
     </div>
+    <KeepModal />
+    <CreateVaultModal />
+    <CreateKeepModal />
   </div>
 </template>
 
 <script>
 import { reactive } from '@vue/reactivity'
-import { computed, watchEffect } from '@vue/runtime-core'
+import { computed, watch, watchEffect } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
 import Pop from '../utils/Notifier'
@@ -66,12 +66,21 @@ export default {
   setup() {
     const route = useRoute()
     const state = reactive({
+      user: computed(() => AppState.user),
       profile: computed(() => AppState.activeProfile),
       keeps: computed(() => AppState.keeps),
       vaults: computed(() => AppState.vaults),
-      account: computed(() => AppState.account),
-      user: computed(() => AppState.user)
+      account: computed(() => AppState.account)
 
+    })
+
+    watch(() => state.user, async() => {
+      try {
+        AppState.vaults = []
+        await vaultsService.getAllVaultsByProfileId(route.params.id)
+      } catch (error) {
+        Pop.toast(error, 'error')
+      }
     })
 
     watchEffect(async() => {
