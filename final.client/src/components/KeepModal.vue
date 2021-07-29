@@ -55,9 +55,9 @@
 
                 <hr>
                 <div class="spacer"></div>
-                <div class="position-absolute vaultbuttonrow ">
+                <div class="position-absolute vaultbuttonrow ml-3 ml-lg-0">
                   <form>
-                    <select title="Add to Vault" @change="addToVault($event.target.value)" class="btn btn-sm btnsz btn-primary">
+                    <select title="Add to Vault" @change="addToVault($event.target.value)" class=" btn btn-sm btnsz btn-primary">
                       <option value="" selected disabled hidden>
                         Add to Vault
                       </option>

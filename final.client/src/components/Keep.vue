@@ -1,5 +1,5 @@
 <template>
-  <div title="Keep Info" @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable shadow-lg">
+  <div title="Keep Info" @click="setKeep" data-toggle="modal" data-target="#keepModal" class=" trnsp position-relative card hoverable shadow-lg">
     <img class="card-img-top" :src="state.img" alt="Card image cap">
     <div class="position-absolute titlepos">
       <h5 class="m-0 px-1 text-light">
@@ -77,21 +77,36 @@ export default {
 
 <style lang="scss" scoped>
 .creator-pic{
-  height: 40px;
+  height: 35px;
 }
 .hoverable{
   cursor: pointer;
 }
 .titlepos{
   bottom: 10px;
+  left: 3px;
 }
 .profpos{
-  bottom: 10px;
-  right: 0;
+  bottom: 0;
+  right: -10px;
 }
 .remvk{
   top: 0;
   right: 0;
   color: red;
+}
+.trnsp{
+  background-color: transparent;
+
+}
+
+.zoom{
+  z-index: 5;
+  transition: .25s linear;
+}
+.zoom:hover{
+  z-index: 101;
+  transform: scale(1.1);
+
 }
 </style>

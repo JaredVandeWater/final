@@ -45,6 +45,7 @@ export default {
 <style scoped lang="scss">
 .navspacer{
   min-height: 90px;
+  z-index: -10;
 }
 
 @media (min-width: 34em) {
