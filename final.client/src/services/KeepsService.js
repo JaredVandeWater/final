@@ -42,8 +42,9 @@ class KeepsService {
     await api.post('api/vaultKeeps', data)
   }
 
-  async removeVaultKeep(id) {
+  async removeVaultKeep(id, vaultId) {
     await api.delete(`api/vaultkeeps/${id}`)
+    this.getAllKeepsByVaultId(vaultId)
   }
 }
 

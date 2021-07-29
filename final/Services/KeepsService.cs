@@ -36,7 +36,6 @@ namespace final.Services
       Keep keep = _kRepo.GetOne(id);
       if (keep != null)
       {
-        keep.Views++;
         return keep;
       }
       throw new Exception("Cannot Get Keep - Id does not exist");

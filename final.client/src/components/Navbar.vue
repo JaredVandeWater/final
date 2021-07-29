@@ -49,9 +49,7 @@ export default {
       async login() {
         AuthService.loginWithPopup()
       },
-      async logout() {
-        AuthService.logout({ returnTo: window.location.origin })
-      },
+
       toProfile() {
         router.push({ name: 'Profile', params: { id: state.account.id } })
       }

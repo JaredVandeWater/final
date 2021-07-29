@@ -22,11 +22,11 @@
           <div>
             <div class="form-group">
               <label for="title">Title</label>
-              <input v-model="state.newVault.Name" type="text" class="form-control" id="title" placeholder="Title...">
+              <input v-model="state.newVault.Name" type="text" class="form-control" id="name" placeholder="Title...">
             </div>
             <div class="form-group">
-              <label for="desc">Description</label>
-              <input v-model="state.newVault.Description" type="text" class="form-control" id="desc" placeholder="Vault Description...">
+              <label for="descr">Description</label>
+              <input v-model="state.newVault.Description" type="text" class="form-control" id="descr" placeholder="Vault Description...">
             </div>
 
             <div class="form-check">
@@ -66,6 +66,7 @@ export default {
       state,
       async createVault() {
         try {
+          console.log(state.newVault)
           await vaultsService.createVault(state.newVault, state.account.id)
           $('#vaultcreator').modal('hide')
         } catch (error) {

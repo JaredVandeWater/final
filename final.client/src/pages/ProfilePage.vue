@@ -2,14 +2,25 @@
   <KeepModal />
   <CreateVaultModal />
   <CreateKeepModal />
-  <div v-if="state.account && state.profile && state.vaults && state.keeps" class="container-fluid">
+  <div v-if="state.account && state.profile && state.vaults && state.keeps && state.user" class="container-fluid">
     <div class="row fixed-top">
       <Navbar />
     </div>
     <div class="navspacer"></div>
-    <div class="row">
+    <div class="row ">
       <div class="mx-4">
-        <img :src="state.profile.picture" alt="Profile">
+        <div class="col">
+          <img :src="state.profile.picture" alt="Profile">
+        </div>
+        <div class="col mt-2 d-flex justify-content-center">
+          <button
+            class="btn btn-outline-danger btn-sm text-uppercase"
+            @click="logout"
+            v-if="state.user.isAuthenticated"
+          >
+            Logout
+          </button>
+        </div>
       </div>
       <div>
         <h1>{{ state.profile.name }}</h1>
@@ -48,6 +59,7 @@ import Pop from '../utils/Notifier'
 import { profilesService } from '../services/ProfilesService'
 import { vaultsService } from '../services/VaultsService'
 import { useRoute } from 'vue-router'
+import { AuthService } from '../services/AuthService'
 
 export default {
   name: 'Profile',
@@ -57,7 +69,8 @@ export default {
       profile: computed(() => AppState.activeProfile),
       keeps: computed(() => AppState.keeps),
       vaults: computed(() => AppState.vaults),
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      user: computed(() => AppState.user)
 
     })
 
@@ -85,7 +98,10 @@ export default {
       }
     })
     return {
-      state
+      state,
+      async logout() {
+        AuthService.logout({ returnTo: window.location.origin })
+      }
 
     }
   }

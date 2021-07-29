@@ -35,9 +35,9 @@ export default {
       creator: props.keep.creator,
       keepTitle: props.keep.name,
       keepId: props.keep.id,
+      vaultKeep: props.keep.vaultKeepId,
       account: computed(() => AppState.account),
-      vault: computed(() => AppState.activeVault.creatorId),
-      vaultKeep: computed(() => AppState.activeVK.id)
+      vault: computed(() => AppState.activeVault.creatorId)
 
     })
     return {
@@ -53,8 +53,7 @@ export default {
         if (route.name === 'Vault') {
           try {
             if (await Pop.confirm('Are you sure?', 'You are about to remove a keep from this vault!', 'warning', 'Remove from Vault')) {
-              keepsService.getVK()
-              keepsService.removeVaultKeep(state.vaultKeep)
+              keepsService.removeVaultKeep(state.vaultKeep, route.params.id)
             }
           } catch (error) {
             Pop.toast(error, 'error')

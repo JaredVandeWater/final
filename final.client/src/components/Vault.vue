@@ -11,7 +11,6 @@
 
 <script>
 import { reactive } from '@vue/reactivity'
-import { AppState } from '../AppState'
 import { useRouter } from 'vue-router'
 import Pop from '../utils/Notifier'
 export default {
