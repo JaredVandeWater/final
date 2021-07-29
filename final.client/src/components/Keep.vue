@@ -20,6 +20,7 @@ import { keepsService } from '../services/KeepsService'
 import { AppState } from '../AppState'
 import { useRouter } from 'vue-router'
 import Pop from '../utils/Notifier'
+import { computed } from '@vue/runtime-core'
 export default {
   props: { keep: { type: Object, required: true } },
   setup(props) {
@@ -28,7 +29,8 @@ export default {
       img: props.keep.img,
       creator: props.keep.creator,
       keepTitle: props.keep.name,
-      keepId: props.keep.id
+      keepId: props.keep.id,
+      account: computed(() => AppState.account)
 
     })
     return {
@@ -43,6 +45,7 @@ export default {
       async setKeep() {
         try {
           AppState.activeKeep = {}
+          AppState.myVaults = {}
           await keepsService.getOneKeep(state.keepId)
         } catch (error) {
           Pop.toast(error, 'error')

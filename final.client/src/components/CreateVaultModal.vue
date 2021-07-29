@@ -51,19 +51,22 @@ import { reactive } from '@vue/reactivity'
 import { vaultsService } from '../services/VaultsService'
 import Pop from '../utils/Notifier'
 import $ from 'jquery'
+import { computed } from '@vue/runtime-core'
+import { AppState } from '../AppState'
 
 export default {
 
   setup() {
     const state = reactive({
-      newVault: {}
+      newVault: {},
+      account: computed(() => AppState.account)
 
     })
     return {
       state,
       async createVault() {
         try {
-          await vaultsService.createVault(state.newVault)
+          await vaultsService.createVault(state.newVault, state.account.id)
           $('#vaultcreator').modal('hide')
         } catch (error) {
           Pop.toast(error, 'error')

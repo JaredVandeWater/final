@@ -23,6 +23,7 @@
         <i class="mdi mdi-plus mdi-24px"></i>
       </button>
     </div>
+
     <div class="row m-1">
       <Vault v-for="vault in state.vaults" :key="vault.id" :vault="vault" />
     </div>

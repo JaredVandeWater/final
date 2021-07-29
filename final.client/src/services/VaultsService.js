@@ -5,6 +5,7 @@ class VaultsService {
   async getAllVaultsByProfileId(id) {
     const res = await api.get(`api/profiles/${id}/vaults`)
     AppState.vaults = res.data
+    console.log(AppState.vaults)
   }
 
   async getVault(id) {
@@ -17,9 +18,10 @@ class VaultsService {
     AppState.vaults = AppState.vaults.filter(v => v.id !== res.data.id)
   }
 
-  async createVault(data) {
+  async createVault(data, userId) {
     const res = await api.post('api/vaults', data)
     AppState.vault = [res.data, ...AppState.vault]
+    this.getAllVaultsByProfileId(userId)
   }
 }
 

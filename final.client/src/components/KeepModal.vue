@@ -52,11 +52,13 @@
                     {{ state.activeKeep.description }}
                   </p>
                 </div>
+                {{ state.myVaults }}
                 <hr>
                 <div class="spacer"></div>
                 <div class="position-absolute vaultbuttonrow ">
                   <div class="dropdown ">
-                    <button class="btn btn-info dropdown-toggle ml-lg-0 ml-2"
+                    <button @click="getVaults"
+                            class="btn btn-info dropdown-toggle ml-lg-0 ml-2"
                             type="button"
                             id="dropdownMenuButton"
                             data-toggle="dropdown"
@@ -66,7 +68,9 @@
                       Add To Vault
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">Action</a>
+                      <p v-for="vault in state.myVaults" :key="vault.id" class="dropdown-item" href="#">
+                        {{ vault.name }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -89,6 +93,7 @@ import { reactive } from '@vue/reactivity'
 import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
+import { vaultsService } from '../services/VaultsService'
 import Pop from '../utils/Notifier'
 import $ from 'jquery'
 import { useRoute } from 'vue-router'
@@ -100,7 +105,8 @@ export default {
     const state = reactive({
       activeKeep: computed(() => AppState.activeKeep),
       creator: computed(() => AppState.activeKeep.creator),
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      myVaults: computed(() => AppState.myVaults)
 
     })
     return {
@@ -114,11 +120,18 @@ export default {
         } catch (error) {
           Pop.toast(error, 'error')
         }
+      },
+      async getVaults() {
+        try {
+          await vaultsService.getAllVaultsByProfileId(state.account.id)
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
       }
     }
   }
-
 }
+
 </script>
 
 <style lang="scss" scoped>

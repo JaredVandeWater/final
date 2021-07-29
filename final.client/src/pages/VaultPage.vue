@@ -6,9 +6,9 @@
     </div>
     <div class="navspacer"></div>
 
-    <div class="row m-4">
-      <h1 class="mb-2">
-        Keeps
+    <div class="row mx-4 mt-4">
+      <h1 class="mb-0">
+        {{ state.activeVault.name }}
       </h1>
 
       <button v-if="state.account.id === state.activeVault.creatorId" @click="deleteVault" class="btn">
@@ -16,10 +16,10 @@
       </button>
     </div>
 
-    <div class="row">
+    <div class="row ml-4">
       <div>
         <h1>{{ state.profile.name }}</h1>
-        <h4>Keeps: {{ state.keeps.length }}</h4>
+        <h5>Keeps: {{ state.keeps.length }}</h5>
       </div>
     </div>
     <div class="card-columns">
@@ -49,7 +49,6 @@ export default {
       vaults: computed(() => AppState.vaults),
       account: computed(() => AppState.account),
       activeVault: computed(() => AppState.activeVault)
-
     })
 
     watchEffect(async() => {
