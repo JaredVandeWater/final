@@ -11,6 +11,9 @@
         <img class="rounded-circle creator-pic px-1" :src="state.creator.picture" :alt="state.creator.name">
       </button>
     </div>
+    <button v-if="state.account.id === state.vault && $route.name==='Vault'" @click.stop="removeVaultKeep" class="btn remvk position-absolute">
+      <i class="mdi mdi-36px mdi-delete-restore"></i>
+    </button>
   </div>
 </template>
 
@@ -18,20 +21,23 @@
 import { reactive } from '@vue/reactivity'
 import { keepsService } from '../services/KeepsService'
 import { AppState } from '../AppState'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import Pop from '../utils/Notifier'
 import { computed } from '@vue/runtime-core'
 import { vaultsService } from '../services/VaultsService'
 export default {
   props: { keep: { type: Object, required: true } },
   setup(props) {
+    const route = useRoute()
     const router = useRouter()
     const state = reactive({
       img: props.keep.img,
       creator: props.keep.creator,
       keepTitle: props.keep.name,
       keepId: props.keep.id,
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      vault: computed(() => AppState.activeVault.creatorId),
+      vaultKeep: computed(() => AppState.activeVK.id)
 
     })
     return {
@@ -41,6 +47,18 @@ export default {
           router.push({ name: 'Profile', params: { id: state.creator.id } })
         } catch (error) {
           Pop.toast(error, 'error')
+        }
+      },
+      async removeVaultKeep() {
+        if (route.name === 'Vault') {
+          try {
+            if (await Pop.confirm('Are you sure?', 'You are about to remove a keep from this vault!', 'warning', 'Remove from Vault')) {
+              keepsService.getVK()
+              keepsService.removeVaultKeep(state.vaultKeep)
+            }
+          } catch (error) {
+            Pop.toast(error, 'error')
+          }
         }
       },
       async setKeep() {
@@ -71,5 +89,10 @@ export default {
 .profpos{
   bottom: 10px;
   right: 0;
+}
+.remvk{
+  top: 0;
+  right: 0;
+  color: red;
 }
 </style>
