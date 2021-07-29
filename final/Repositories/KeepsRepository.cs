@@ -16,6 +16,31 @@ namespace final.Repositories
       _db = db;
     }
 
+
+
+
+    public Keep AddView(Keep keep)
+    {
+      string sql = @"
+      UPDATE keeps 
+      SET
+      views = @Views
+      WHERE id = @id;";
+      var rowsAffected = _db.Execute(sql, keep);
+      if (rowsAffected > 1)
+      {
+        throw new Exception("More than one row updated, not good.");
+      }
+      if (rowsAffected < 1)
+      {
+        throw new Exception("View Update Failed");
+      }
+      return keep;
+    }
+
+
+
+
     // edit a keep
     public Keep Put(Keep kData)
     {

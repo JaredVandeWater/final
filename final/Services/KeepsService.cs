@@ -23,6 +23,7 @@ namespace final.Services
 
       if (keep != null)
       {
+
         return keep;
       }
       throw new Exception("Not sure how this is null, you just made it.");
@@ -34,8 +35,11 @@ namespace final.Services
     public Keep GetOne(int id)
     {
       Keep keep = _kRepo.GetOne(id);
+
       if (keep != null)
       {
+        keep.Views += 1;
+        Keep updatedKeep = _kRepo.AddView(keep);
         return keep;
       }
       throw new Exception("Cannot Get Keep - Id does not exist");
@@ -50,11 +54,14 @@ namespace final.Services
       }
       if (keep.CreatorId != accountId)
       {
+
+
         throw new Exception("incorrect user");
       }
       keep.Name = kData.Name ?? keep.Name;
       keep.Description = kData.Description ?? keep.Description;
       keep.Img = kData.Img ?? keep.Img;
+
 
       return _kRepo.Put(keep);
     }
