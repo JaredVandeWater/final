@@ -30,7 +30,7 @@
 
 <script>
 import { reactive } from '@vue/reactivity'
-import { computed, watchEffect } from '@vue/runtime-core'
+import { computed, onMounted, watchEffect } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
 import Pop from '../utils/Notifier'
@@ -60,6 +60,7 @@ export default {
           await keepsService.getAllKeepsByVaultId(route.params.id)
         } catch (error) {
           Pop.toast(error, 'error')
+          router.push({ name: 'Home' })
         }
         try {
           AppState.activeVault = {}
@@ -67,11 +68,9 @@ export default {
         } catch (error) {
 
         }
-        if (state.activeVault.isPrivate) {
-          if (state.account.id !== state.activeVault.creatorId) { router.push({ name: 'Home' }) }
-        }
       }
     })
+
     return {
       state,
       async deleteVault() {

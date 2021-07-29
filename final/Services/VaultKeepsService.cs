@@ -48,8 +48,15 @@ namespace final.Services
 
         return Keep;
       }
+      else if (vault.IsPrivate && accountId == vault.CreatorId)
+      {
+        List<Keep> Keep = _vkRepo.GetKeepsByVaultId(vault.Id);
+
+        return Keep;
+      }
       else
       {
+
         throw new Exception("Unauthorized or Invalid Vault");
       }
 
