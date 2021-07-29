@@ -11,6 +11,7 @@
         </div>
         <div class="col mt-2 d-flex justify-content-center">
           <button
+            title="Logout"
             class="btn btn-outline-danger btn-sm text-uppercase"
             @click="logout"
             v-if="state.user.isAuthenticated"
@@ -27,7 +28,7 @@
     </div>
     <div class="row mx-4 mt-3">
       <h1>Vaults</h1>
-      <button v-if="state.account.id === state.profile.id" data-toggle="modal" data-target="#vaultcreator" class="btn">
+      <button title="Create Vault" v-if="state.account.id === state.profile.id" data-toggle="modal" data-target="#vaultcreator" class="btn">
         <i class="mdi mdi-plus mdi-24px"></i>
       </button>
     </div>
@@ -37,7 +38,7 @@
     </div>
     <div class="row m-4">
       <h1>Keeps</h1>
-      <button v-if="state.account.id === state.profile.id" data-toggle="modal" data-target="#keepcreator" class="btn">
+      <button title="Create Keep" v-if="state.account.id === state.profile.id" data-toggle="modal" data-target="#keepcreator" class="btn">
         <i class="mdi mdi-plus mdi-24px"></i>
       </button>
     </div>

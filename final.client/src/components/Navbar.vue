@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar ncolor min100vw d-flex justify-content-between navbar-expand-lg ">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+    <router-link title="Home" class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center mx-4">
         <img
           alt="logo"
@@ -12,15 +12,15 @@
 
     <div id="navbarText">
       <span class="navbar-text">
-        <button
-          class="btn btn-outline-danger text-uppercase"
-          @click="login"
-          v-if="!user.isAuthenticated"
+        <button title="Login"
+                class="btn btn-outline-danger text-uppercase"
+                @click="login"
+                v-if="!user.isAuthenticated"
         >
           Login
         </button>
 
-        <button @click="toProfile" class=" d-flex btn krpred  p-0 p-1 shadow-sm " v-else>
+        <button title="My Profile" @click="toProfile" class=" d-flex btn krpred  p-0 p-1 shadow-sm " v-else>
           <img class="profpic rounded-circle mx-2" :src="state.account.picture" alt="ProfilePic">
 
           <p class=" d-md-block d-none  m-0 mr-2 mt-1">{{ state.account.name }}</p>

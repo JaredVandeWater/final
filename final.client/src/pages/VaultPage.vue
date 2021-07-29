@@ -11,7 +11,7 @@
         {{ state.activeVault.name }}
       </h1>
 
-      <button v-if="state.account.id === state.activeVault.creatorId" @click="deleteVault" class="btn">
+      <button title="Delete Vault" v-if="state.account.id === state.activeVault.creatorId" @click="deleteVault" class="btn">
         <i class="mdi mdi-delete mdi-24px"></i>
       </button>
     </div>

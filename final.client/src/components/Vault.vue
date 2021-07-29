@@ -1,5 +1,5 @@
 <template>
-  <div v-if="state.creator" @click="goToVault" class=" m-2 position-relative card hoverable">
+  <div title="Open Vault" v-if="state.creator" @click="goToVault" class=" m-2 position-relative card hoverable">
     <img class="card-img-top vault" src="https://thumbs.dreamstime.com/b/silver-safe-dial-d-rendering-isolated-white-background-106560450.jpg" alt="VaultImage">
     <div class="position-absolute titlepos">
       <h5 class="m-0 px-1 text-light">

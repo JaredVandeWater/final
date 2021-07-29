@@ -1,17 +1,17 @@
 <template>
-  <div @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable shadow-lg">
+  <div title="Keep Info" @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable shadow-lg">
     <img class="card-img-top" :src="state.img" alt="Card image cap">
     <div class="position-absolute titlepos">
       <h5 class="m-0 px-1 text-light">
         {{ state.keepTitle }}
       </h5>
     </div>
-    <div v-if="$route.name === 'Home'" class="position-absolute profpos">
+    <div title="Profile" v-if="$route.name === 'Home'" class="position-absolute profpos">
       <button class="btn" @click.stop="toProfilePage">
         <img class="rounded-circle creator-pic px-1" :src="state.creator.picture" :alt="state.creator.name">
       </button>
     </div>
-    <button v-if="state.account.id === state.vault && $route.name==='Vault'" @click.stop="removeVaultKeep" class="btn remvk position-absolute">
+    <button title="Remove From Vault" v-if="state.account.id === state.vault && $route.name==='Vault'" @click.stop="removeVaultKeep" class="btn remvk position-absolute">
       <i class="mdi mdi-36px mdi-delete-restore"></i>
     </button>
   </div>

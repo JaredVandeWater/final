@@ -15,16 +15,16 @@
           <div class="container">
             <div class="row" v-if="state.creator && state.myVaults">
               <div class="col-12 col-lg d-flex align-items-center justify-content-center hset">
-                <img class="maxw-100" modal :src="state.activeKeep.img" alt="">
+                <img class="maxw-100" modal :src="state.activeKeep.img" alt="Keep Image">
               </div>
               <div class="col-12 col-md position-relative">
                 <div class="row justify-content-between">
                   <div class="col">
-                    <button v-if="state.account.id === state.creator.id" @click="deleteKeep" class="btn">
+                    <button title="Delete Keep" v-if="state.account.id === state.creator.id" @click="deleteKeep" class="btn">
                       <i class="mdi mdi-delete"></i>
                     </button>
                   </div>
-                  <div class="col d-flex justify-content-end">
+                  <div title="Close" class="col d-flex justify-content-end">
                     <button type="button" class="btn" data-dismiss="modal">
                       <i class="mdi mdi-close"></i>
                     </button>
@@ -57,9 +57,9 @@
                 <div class="spacer"></div>
                 <div class="position-absolute vaultbuttonrow ">
                   <form>
-                    <select @change="addToVault($event.target.value)" class="btn btn-sm btnsz btn-primary">
+                    <select title="Add to Vault" @change="addToVault($event.target.value)" class="btn btn-sm btnsz btn-primary">
                       <option value="" selected disabled hidden>
-                        Put into Vault
+                        Add to Vault
                       </option>
                       <option v-for="vault in state.myVaults" :value="vault.id" :key="vault.id">
                         {{ vault.name }}
@@ -67,7 +67,7 @@
                     </select>
                   </form>
                 </div>
-                <div class="position-absolute namepos">
+                <div title="Profile Page" @click="toProfilePage" class="position-absolute hoverable namepos ">
                   <img class="rounded-circle creator-pic px-1" :src="state.creator.picture" alt="">
                   <small class="pr-2">{{ state.creator.name }}</small>
                 </div>
@@ -87,11 +87,12 @@ import { AppState } from '../AppState'
 import { keepsService } from '../services/KeepsService'
 import Pop from '../utils/Notifier'
 import $ from 'jquery'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
 
   setup() {
+    const router = useRouter()
     const route = useRoute()
     const state = reactive({
       activeKeep: computed(() => AppState.activeKeep),
@@ -118,12 +119,19 @@ export default {
           state.newVaultKeep = {}
           state.newVaultKeep.keepId = state.activeKeep.id
           state.newVaultKeep.vaultId = vault
-          console.log(vault)
-          console.log(state.newVaultKeep)
+
           if (state.newVaultKeep.vaultId) {
             await keepsService.addKeeptoVault(state.newVaultKeep)
             $('#keepModal').modal('hide')
           }
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      },
+      toProfilePage() {
+        try {
+          $('#keepModal').modal('hide')
+          router.push({ name: 'Profile', params: { id: state.creator.id } })
         } catch (error) {
           Pop.toast(error, 'error')
         }
@@ -176,5 +184,8 @@ export default {
 }
 .btnsz{
   max-width: 128px;
+}
+.hoverable{
+  cursor: pointer;
 }
 </style>
