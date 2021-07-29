@@ -1,10 +1,10 @@
 <template>
-  <nav class="navbar min100vw d-flex justify-content-between navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar ncolor min100vw d-flex justify-content-between navbar-expand-lg ">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center mx-4">
         <img
           alt="logo"
-          src="../assets/img/cw-logo.png"
+          src="../assets/img/keeprLogo.png"
           height="45"
         />
       </div>
@@ -13,17 +13,17 @@
     <div id="navbarText">
       <span class="navbar-text">
         <button
-          class="btn btn-outline-primary text-uppercase"
+          class="btn btn-outline-danger text-uppercase"
           @click="login"
           v-if="!user.isAuthenticated"
         >
           Login
         </button>
 
-        <button @click="toProfile" class=" d-flex btn btn-light p-0 p-1 " v-else>
+        <button @click="toProfile" class=" d-flex btn krpred  p-0 p-1 shadow-sm " v-else>
           <img class="profpic rounded-circle mx-2" :src="state.account.picture" alt="ProfilePic">
 
-          <p class=" m-0 mr-2 mt-1">{{ state.account.name }}</p>
+          <p class=" d-md-block d-none  m-0 mr-2 mt-1">{{ state.account.name }}</p>
         </button>
       </span>
     </div>
@@ -88,5 +88,15 @@ a:hover {
 }
 .profpic{
   height: 30px;
+  border-color: white;
+  border-style: solid;
+  border-width: 1.5px;
+}
+.krpred{
+  background-color: #0000000d;
+}
+.ncolor{
+  background: rgb(223,229,231);
+background: linear-gradient(61deg, rgba(223,229,231,1) 0%, rgba(255,221,221,1) 100%);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable">
+  <div @click="setKeep" data-toggle="modal" data-target="#keepModal" class="position-relative card hoverable shadow-lg">
     <img class="card-img-top" :src="state.img" alt="Card image cap">
     <div class="position-absolute titlepos">
       <h5 class="m-0 px-1 text-light">
@@ -21,6 +21,7 @@ import { AppState } from '../AppState'
 import { useRouter } from 'vue-router'
 import Pop from '../utils/Notifier'
 import { computed } from '@vue/runtime-core'
+import { vaultsService } from '../services/VaultsService'
 export default {
   props: { keep: { type: Object, required: true } },
   setup(props) {
@@ -46,6 +47,7 @@ export default {
         try {
           AppState.activeKeep = {}
           AppState.myVaults = {}
+          await vaultsService.getAllVaultsByProfileId(state.account.id)
           await keepsService.getOneKeep(state.keepId)
         } catch (error) {
           Pop.toast(error, 'error')
